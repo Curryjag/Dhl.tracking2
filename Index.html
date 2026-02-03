@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal</title>
+  <style>
+    body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #ffcc00 0%, #d40511 100%);
+    }
+    .wrapper {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #ffffff;
+      border: 1px solid #e6e6e6;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    .header {
+      background: #ffcc00;
+      padding: 16px;
+      text-align: center;
+    }
+    .header img {
+      max-height: 50px;
+    }
+    .content {
+      padding: 30px;
+    }
+    h1 {
+      color: #d40511;
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .form {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    input[type="text"] {
+      width: 70%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    .button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: #d40511;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+    .timeline {
+      margin-top: 30px;
+      padding: 0 20px;
+      display: none;
+    }
+    .step {
+      position: relative;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      background: #fff8e0;
+      border-left: 6px solid #ccc;
+      border-radius: 6px;
+    }
+    .step::before {
+      content: '';
+      position: absolute;
+      left: -12px;
+      top: 18px;
+      width: 12px;
+      height: 12px;
+      background: #ccc;
+      border-radius: 50%;
+    }
+    @keyframes pulse {
+      0%   { background-color: #ffe8e8; }
+      50%  { background-color: #ffd0d0; }
+      100% { background-color: #ffe8e8; }
+    }
+    .step.current {
+      border-left-color: #d40511;
+      background: #ffe8e8;
+      animation: pulse 2s infinite;
+    }
+    .step.current::before {
+      background: #d40511;
+      box-shadow: 0 0 8px #d40511;
+    }
+    .label {
+  font-weight: 600;   /* slightly lighter than bold */
+  font-size: 18px;    /* a bit larger for clarity */
+  color: #222;        /* darker, cleaner look */
+  margin-bottom: 4px;
+}
+
+.location {
+  font-size: 15px;    /* slightly larger than before */
+  color: #555;        /* softer gray for secondary info */
+}
+
+.timestamp {
+  font-size: 13px;    /* small but readable */
+  color: #777;        /* subtle, de‑emphasized */
+  margin-top: 6px;
+}
+    .error {
+      color: #d40511;
+      font-weight: bold;
+      margin-top: 10px;
+      display: none;
+    }
+    .footer {
+      font-size: 12px;
+      color: #555;
+      padding: 16px;
+      border-top: 1px solid #e6e6e6;
+      text-align: center;
+    }
+    .checkmark {
+  display: inline-block;
+  width: 14px;
+  height: 8px;
+  border-left: 3px solid green;
+  border-bottom: 3px solid green;
+  transform: rotate(-45deg);
+  margin-left: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="header">
+      <img src="https://www.dhl.com/content/dam/dhl/global/core/images/logos/dhl-logo.svg" alt="DHL Express Logo" />
+    </div>
+
+    <div class="content">
+      <h1>Track Your Shipment</h1>
+
+      <div class="form">
+        <input type="text" id="trackingInput" placeholder="Enter Tracking Number" />
+        <br />
+        <button class="button" onclick="checkTracking()">Track</button>
+        <div id="error" class="error">Invalid tracking number</div>
+      </div>
+
+      <div id="timeline" class="timeline">
+        <div class="step">
+          <div class="label">Shipment Registered<span class="checkmark"></span>
+          </div>
+          <div class="location">London, UK</div>
+          <div class="timestamp">Dec 29, 2025, 09:12 AM GMT</div>
+        </div>
+        <div class="step">
+          <div class="label">In Transit<span class="checkmark"></span>
+          </div>
+          <div class="location">Departed Facility</div>
+          <div class="timestamp">Dec 29, 2025 21:00 PM GMT</div>
+        </div>
+        <div class="step current">
+          <div class="label">Customs Clearance</div>
+          <div class="location">Shanghai, China</div>
+          <div class="timestamp">Jan 3, 2026, 06:10 AM UTC+8</div>
+        </div>
+        <div class="step">
+          <div class="label">Out for Delivery</div>
+          <div class="location">Nanning, Guangxi</div>
+          <div class="timestamp">Pending</div>
+        </div>
+        <div class="step">
+          <div class="label">Delivered</div>
+          <div class="location">City Garden Apartment, No.24 Jinpu Road, Qingxiu District  
+Nanning, Guangxi, 530022  
+China</div>
+          <div class="timestamp">Pending</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      © DHL International GmbH
+    </div>
+  </div>
+
+  <script>
+    function checkTracking() {
+      const input = document.getElementById("trackingInput").value.trim();
+      const timeline = document.getElementById("timeline");
+      const error = document.getElementById("error");
+
+      // Set your specific allowed tracking number here
+      const allowedNumber = "6086911246";
+
+      if (input === allowedNumber) {
+        timeline.style.display = "block";
+        error.style.display = "none";
+      } else {
+        timeline.style.display = "none";
+        error.style.display = "block";
+      }
+    }
+  </script>
+  
+<!-- Tidio widget -->
+  <script src="//code.tidio.co/voxrt025ls0t376jgkhtpghvi2gnblbx.js" async></script>
+</body>
+</html>
